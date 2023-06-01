@@ -4,11 +4,20 @@ import pandas as pd
 def criar_dicionario(lista, depart):
     lista2 =[]
     for categoria, grupo, departamento in lista:
+        # print(f'{categoria} - {grupo} - {departamento}')
+        # breakpoint()
         if departamento == depart:
             lista2.append(categoria)
             lista2.append(grupo)
     dic = {depart: lista2}
     return dic
+
+def tratar_item_lista(string, remover):
+    string = str(string)
+    string = string.strip(remover)
+    string = string.strip() 
+    string = string.replace("'","")    
+    return string
 
 
 if __name__ == '__main__':
@@ -19,8 +28,9 @@ if __name__ == '__main__':
     df = df.drop_duplicates()
     lista_depart = df.values.tolist()
     # print(len(lista_depart))
-    for item in lista_depart:
-        x =criar_dicionario(lista=lista, depart=item)
+    for i in lista_depart:
+        depart = tratar_item_lista(i,'[]')
+        x =criar_dicionario(lista=lista, depart=depart)
         lista_dicionarios.append(x) 
     print(lista_dicionarios)
 # lista = df.values.tolist()
