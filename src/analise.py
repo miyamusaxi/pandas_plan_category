@@ -12,9 +12,7 @@ def criar_dicionario(lista, cat):
     for produto, categoria in lista:
         if categoria == cat:
             lista2.append(produto)
-    dic = {cat: lista2}
-    return dic
-
+    return {cat: lista2}
 
 def tratar_str(string, remover):
     string = str(string)
@@ -36,7 +34,6 @@ def categorizar(row, prod, key,conteudo,prod2):
                     'ativo':row['Ativo']
                     },index=[0])
         elif ((prod.lower()in conte) for conte in conteudo) or ((prod2.lower() in conte) for conte in conteudo):
-            # MONTA UM DICIONARIO COM A NOVA CATEGORIA E ADICIONA NUMA LISTA DE DICIONARIOS
             return pd.DataFrame({
                     'id' :row['id'],
                     'codigo interno': row['Código interno'],
@@ -63,11 +60,14 @@ if __name__ == '__main__':
     listadics = []
     listaitens = []
     cont = 0
-
+    
+    #Cria uma base de dados para categorização
     df = pd.read_csv(
         r"C:\export_produtos\categorias.csv", encoding='utf-8')
     tipo = type(df)
+    
     df = df.drop(columns=['departamento', 'grupo'])
+    
     lista = df.values.tolist()
 
     df = df.drop(columns=['titulo'])
@@ -107,15 +107,3 @@ if __name__ == '__main__':
         result = pd.concat(listadics)
         result.to_excel(f'C:\py_projects\data_analise\doc\categorizado-{now:%d%m%y-%H%M%S}.xlsx')
         print('success')
-    # else:
-    #     print('DEU ERRO CE É BURRAO EIN')
-
-    # df = pd.read_excel(
-    #     r'C:\py_projects\data_analise\doc\teste.xlsx').replace({np.nan: None}).to_dict(orient='records')
-    # for col in df:
-    #     stringstrip = col['descricao'].strip()
-    #     newstring = ''.join([i for i in stringstrip if not i.isdigit()])
-        
-    #     if len(prod) > 4:
-    #         if prod.lower() in col['categoria'].lower():
-    #             print(f'{col["descricao"]} - {col["categoria"]}')
